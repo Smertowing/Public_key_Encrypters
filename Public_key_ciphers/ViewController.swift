@@ -8,8 +8,36 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+extension NSViewController {
+    func browseFile() -> String {
+        let browse = NSOpenPanel();
+        browse.title                   = "Choose a file"
+        browse.showsResizeIndicator    = true
+        browse.showsHiddenFiles        = false
+        browse.canCreateDirectories    = true
+        browse.allowsMultipleSelection = false
+        
+        if (browse.runModal() == NSApplication.ModalResponse.OK) {
+            let result = browse.url
+            if (result != nil) {
+                return result!.path
+            }
+        }
+        return ""
+    }
+    
+    func dialogError(question: String, text: String) {
+        let alert = NSAlert()
+        alert.messageText = question
+        alert.informativeText = text
+        alert.alertStyle = .critical
+        alert.addButton(withTitle: "Ok")
+        alert.runModal()
+    }
+}
 
+class ViewController: NSViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

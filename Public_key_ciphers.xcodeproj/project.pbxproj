@@ -11,6 +11,8 @@
 		F32164F3216A4D6800602A55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32164F2216A4D6800602A55 /* ViewController.swift */; };
 		F32164F5216A4D6800602A55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F32164F4216A4D6800602A55 /* Assets.xcassets */; };
 		F32164F8216A4D6800602A55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F32164F6216A4D6800602A55 /* Main.storyboard */; };
+		F3216501216A4F7800602A55 /* RSAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3216500216A4F7800602A55 /* RSAViewController.swift */; };
+		F3216504216A5A0000602A55 /* CommonFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3216503216A5A0000602A55 /* CommonFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		F32164F7216A4D6800602A55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F32164F9216A4D6800602A55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F32164FA216A4D6800602A55 /* Public_key_ciphers.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Public_key_ciphers.entitlements; sourceTree = "<group>"; };
+		F3216500216A4F7800602A55 /* RSAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAViewController.swift; sourceTree = "<group>"; };
+		F3216503216A5A0000602A55 /* CommonFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,10 +61,28 @@
 				F32164F2216A4D6800602A55 /* ViewController.swift */,
 				F32164F4216A4D6800602A55 /* Assets.xcassets */,
 				F32164F6216A4D6800602A55 /* Main.storyboard */,
+				F3216502216A4F7E00602A55 /* ViewControllers */,
+				F3216505216A5A1F00602A55 /* Algorithms */,
 				F32164F9216A4D6800602A55 /* Info.plist */,
 				F32164FA216A4D6800602A55 /* Public_key_ciphers.entitlements */,
 			);
 			path = Public_key_ciphers;
+			sourceTree = "<group>";
+		};
+		F3216502216A4F7E00602A55 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F3216500216A4F7800602A55 /* RSAViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		F3216505216A5A1F00602A55 /* Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				F3216503216A5A0000602A55 /* CommonFunctions.swift */,
+			);
+			path = Algorithms;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,7 +155,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3216501216A4F7800602A55 /* RSAViewController.swift in Sources */,
 				F32164F3216A4D6800602A55 /* ViewController.swift in Sources */,
+				F3216504216A5A0000602A55 /* CommonFunctions.swift in Sources */,
 				F32164F1216A4D6800602A55 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
