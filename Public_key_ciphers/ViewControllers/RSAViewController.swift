@@ -25,12 +25,30 @@ class RSAViewController: NSViewController  {
     var kc = 0
     var r = 0
     var euler = 0
-    var e = 0
+    var ko = 0
     var outputBuff: [Int] = []
     var inputBuff: [UInt8] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func encode() {
+        outputBuff = inputBuff.map { Int($0) }
+        for index in 0..<outputBuff.count {
+            outputBuff[index] = fastexp(a: Int(outputBuff[index]), z: kc, n: r)
+        }
+        outputField.stringValue = ""
+        for operatedByte in outputBuff {
+            outputField.stringValue.append(String(operatedByte) + " ")
+        }
+    }
+    
+    func decode() {
+        inputBuff.removeAll()
+        for operatedByte in outputBuff {
+            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:kc, n: r)))
+        }
     }
     
     func allValuesIsOkey(tag: Int) -> Bool {
@@ -56,46 +74,55 @@ class RSAViewController: NSViewController  {
             return false
         }
         p = Int(pTBox.stringValue)!
+        
         guard (Int(qTBox.stringValue) != nil) && (Int(qTBox.stringValue)!.isPrime) else {
             dialogError(question: "Error!", text: "q is not a prime number.")
             return false
         }
         q = Int(qTBox.stringValue)!
-        guard (Int(kcTBox.stringValue) != nil) && (Int(kcTBox.stringValue)!.isPrime) else {
-            dialogError(question: "Error!", text: "q is not a prime number.")
+        
+        guard (Int(kcTBox.stringValue) != nil) else {
+            dialogError(question: "Error!", text: "Kc is not a number.")
             return false
         }
         kc = Int(kcTBox.stringValue)!
         
+        euler  = (p - 1) * (q - 1)
+        eulerTBox.stringValue = String(euler)
+        r = p * q
+        rTBox.stringValue = String(r)
+        
+        guard isRelativelyPrime(kc, euler) else {
+            dialogError(question: "Error!", text: "Incorrected Kc.")
+            return false
+        }
+        
+        ko = inverseIt(kc, euler)
+        koTBox.stringValue = String(ko)
+        
+        switch tag {
+        case 0:
+            encode()
+
+        case 1:
+            decode()
+        default:
+            break
+        }
+        
         return true
-    }
-    
-    func encode() {
-        outputBuff = inputBuff.map { Int($0) }
-        for index in 0..<outputBuff.count {
-            outputBuff[index] = fastexp(a: Int(outputBuff[index]), z: kc, n: r)
-        }
-        outputField.stringValue = ""
-        for operatedByte in outputBuff {
-            outputField.stringValue.append(String(operatedByte) + " ")
-        }
-    }
-    
-    func decode() {
-        inputBuff.removeAll()
-        for operatedByte in outputBuff {
-            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:kc, n: r)))
-        }
     }
     
     @IBAction func encodeRSA(_ sender: NSButton) {
         if allValuesIsOkey(tag: sender.tag) {
-            encode()
+            
         }
     }
     
     @IBAction func decodeRSA(_ sender: NSButton) {
-        
+        if allValuesIsOkey(tag: sender.tag) {
+            
+        }
     }
     
     @IBAction func openFile(_ sender: NSButton) {
@@ -136,9 +163,9 @@ class RSAViewController: NSViewController  {
             let outputStream = OutputStream(toFileAtPath: filePath, append: false)!
             switch sender.tag {
             case 0:
-                outputStream.open()
-                outputStream.write(inputBuff, maxLength: inputBuff.count)
-                outputStream.close()
+                let pointer = UnsafeBufferPointer(start: inputBuff, count: inputBuff.count)
+                let data = Data(buffer: pointer)
+                try! data.write(to: URL(fileURLWithPath: filePath + ".decoded"))
             case 1:
                 var buffer: [UInt8] = []
                 for int in outputBuff {

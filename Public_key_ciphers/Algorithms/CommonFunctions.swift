@@ -17,9 +17,9 @@ func fastexp(a: Int, z: Int, n: Int) -> Int {
     var a1 = a, z1 = z
     var x = 1
     while z1 != 0 {
-        while (z1 % 2) == 0 {
+        while z1 % 2 == 0 {
             z1 = z1 / 2
-            a1 = (a1*a1) % n
+            a1 = (a1 * a1) % n
         }
         z1 = z1 - 1
         x = (x * a1) % n
@@ -39,4 +39,33 @@ func euclidex(a: Int, b: Int) -> (Int,Int,Int) {
         y0 = y1; y1 = y2
     }
     return (x1, y1, d1)
+}
+
+// Check if relatively prime
+func isRelativelyPrime(_ first: Int, _ second: Int) -> Bool {
+    var a = 0
+    var b = max(first, second), r = min(first, second)
+    while r != 0 {
+        a = b
+        b = r
+        r = a % b
+    }
+    return b == 1
+}
+
+func inverseIt(_ n: Int, _ mod: Int) -> Int{
+    var a = n, b = mod
+    var x = 0, y = 1, x0 = 1, y0 = 0, q = 0, temp = 0
+    while b != 0 {
+        q = a / b
+        temp = a % b
+        a = b
+        b = temp
+        temp = x; x = x0 - q * x; x0 = temp;
+        temp = y; y = y0 - q * y; y0 = temp;
+    }
+    if x0 < 0 {
+        x0 += mod
+    }
+    return x0
 }
