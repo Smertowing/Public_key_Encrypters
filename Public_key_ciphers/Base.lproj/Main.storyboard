@@ -848,7 +848,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jzN-Kt-1A6">
                                 <rect key="frame" x="279" y="459" width="20" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Kc" id="sYi-Ny-BaH">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Ki" id="sYi-Ny-BaH">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -882,9 +882,9 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8jo-pt-Efu">
-                                <rect key="frame" x="510" y="459" width="9" height="17"/>
+                                <rect key="frame" x="510" y="459" width="12" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="r" id="dBu-DM-JbK">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="n" id="dBu-DM-JbK">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -900,9 +900,9 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IlN-m1-nwf">
-                                <rect key="frame" x="624" y="460" width="27" height="17"/>
+                                <rect key="frame" x="624" y="460" width="29" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="E(r)" id="Rt7-X0-76P">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="E(n)" id="Rt7-X0-76P">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -931,12 +931,12 @@
                     <connections>
                         <outlet property="eulerTBox" destination="ob5-VO-9k3" id="qsr-sb-ouw"/>
                         <outlet property="inputField" destination="SYD-p9-5PW" id="UYR-6c-MlN"/>
-                        <outlet property="kcTBox" destination="dyi-QJ-f7d" id="tzt-SX-ejY"/>
+                        <outlet property="kiTBox" destination="dyi-QJ-f7d" id="tzt-SX-ejY"/>
                         <outlet property="koTBox" destination="EUV-zk-qXR" id="6FR-Qq-fR4"/>
+                        <outlet property="nTBox" destination="7X7-Z9-fJX" id="n2A-MN-U5t"/>
                         <outlet property="outputField" destination="LMZ-5F-bzM" id="WP8-hn-5p5"/>
                         <outlet property="pTBox" destination="YBq-WP-A1w" id="dyM-rv-VsK"/>
                         <outlet property="qTBox" destination="Om0-7X-yVH" id="E3L-m1-sN8"/>
-                        <outlet property="rTBox" destination="7X7-Z9-fJX" id="n2A-MN-U5t"/>
                     </connections>
                 </viewController>
                 <customObject id="UIp-PY-7yq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

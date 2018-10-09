@@ -13,8 +13,8 @@ class RSAViewController: NSViewController  {
 
     @IBOutlet weak var pTBox: NSTextField!
     @IBOutlet weak var qTBox: NSTextField!
-    @IBOutlet weak var kcTBox: NSTextField!
-    @IBOutlet weak var rTBox: NSTextField!
+    @IBOutlet weak var kiTBox: NSTextField!
+    @IBOutlet weak var nTBox: NSTextField!
     @IBOutlet weak var eulerTBox: NSTextField!
     @IBOutlet weak var koTBox: NSTextField!
     @IBOutlet weak var inputField: NSTextField!
@@ -22,8 +22,8 @@ class RSAViewController: NSViewController  {
     
     var p = 0
     var q = 0
-    var kc = 0
-    var r = 0
+    var ki = 0
+    var n = 0
     var euler = 0
     var ko = 0
     var outputBuff: [Int] = []
@@ -36,18 +36,28 @@ class RSAViewController: NSViewController  {
     func encode() {
         outputBuff = inputBuff.map { Int($0) }
         for index in 0..<outputBuff.count {
-            outputBuff[index] = fastexp(a: Int(outputBuff[index]), z: kc, n: r)
+            outputBuff[index] = fastexp(a: Int(outputBuff[index]), z: ki, n: n)
         }
         outputField.stringValue = ""
         for operatedByte in outputBuff {
             outputField.stringValue.append(String(operatedByte) + " ")
+            if outputField.stringValue.count > 1300 {
+                break
+            }
         }
     }
     
     func decode() {
         inputBuff.removeAll()
         for operatedByte in outputBuff {
-            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:kc, n: r)))
+            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:ko, n: n)))
+        }
+        inputField.stringValue = ""
+        for operatedByte in inputBuff {
+            inputField.stringValue.append(String(operatedByte) + " ")
+            if inputField.stringValue.count > 1300 {
+                break
+            }
         }
     }
     
@@ -81,47 +91,37 @@ class RSAViewController: NSViewController  {
         }
         q = Int(qTBox.stringValue)!
         
-        guard (Int(kcTBox.stringValue) != nil) else {
+        guard (Int(kiTBox.stringValue) != nil) else {
             dialogError(question: "Error!", text: "Kc is not a number.")
             return false
         }
-        kc = Int(kcTBox.stringValue)!
+        ki = Int(kiTBox.stringValue)!
         
         euler  = (p - 1) * (q - 1)
         eulerTBox.stringValue = String(euler)
-        r = p * q
-        rTBox.stringValue = String(r)
+        n = p * q
+        nTBox.stringValue = String(n)
         
-        guard isRelativelyPrime(kc, euler) else {
+        guard isRelativelyPrime(ki, euler) else {
             dialogError(question: "Error!", text: "Incorrected Kc.")
             return false
         }
         
-        ko = inverseIt(kc, euler)
+        ko = inverseIt(ki, euler)
         koTBox.stringValue = String(ko)
-        
-        switch tag {
-        case 0:
-            encode()
-
-        case 1:
-            decode()
-        default:
-            break
-        }
         
         return true
     }
     
     @IBAction func encodeRSA(_ sender: NSButton) {
         if allValuesIsOkey(tag: sender.tag) {
-            
+            encode()
         }
     }
     
     @IBAction func decodeRSA(_ sender: NSButton) {
         if allValuesIsOkey(tag: sender.tag) {
-            
+            decode()
         }
     }
     
@@ -141,9 +141,20 @@ class RSAViewController: NSViewController  {
                     }
                 }
             case 1:
-                var buffer = [Int](repeating: 0, count: data.length / 8)
+                var buffer = [UInt8](repeating: 0, count: data.length)
                 data.getBytes(&buffer, length: data.length)
-                outputBuff = buffer
+                var tempbuffer: [Int] = []
+                for i in 0..<buffer.count/8 - 1 {
+                    var tempInt: Int = 0
+                    var k = 0
+                    for j: Int in [56,48,40,32,24,16,8,0] {
+                        let temp = Int(buffer[i*8+k])
+                        tempInt += (temp << j)
+                        k += 1
+                    }
+                    tempbuffer.append(tempInt)
+                }
+                outputBuff = tempbuffer
                 outputField.stringValue = ""
                 for byte in outputBuff {
                     outputField.stringValue.append(String(byte) + " ")
@@ -160,12 +171,11 @@ class RSAViewController: NSViewController  {
     @IBAction func safeFile(_ sender: NSButton) {
         let filePath = browseFile()
         if filePath != "" {
-            let outputStream = OutputStream(toFileAtPath: filePath, append: false)!
             switch sender.tag {
             case 0:
                 let pointer = UnsafeBufferPointer(start: inputBuff, count: inputBuff.count)
                 let data = Data(buffer: pointer)
-                try! data.write(to: URL(fileURLWithPath: filePath + ".decoded"))
+                try! data.write(to: URL(fileURLWithPath: filePath))
             case 1:
                 var buffer: [UInt8] = []
                 for int in outputBuff {
@@ -174,9 +184,14 @@ class RSAViewController: NSViewController  {
                         buffer.append(UInt8(temp))
                     }
                 }
+                let pointer = UnsafeBufferPointer(start: buffer, count: buffer.count)
+                let data = Data(buffer: pointer)
+                try! data.write(to: URL(fileURLWithPath: filePath))
+                
+           /*     let outputStream = OutputStream(toFileAtPath: filePath, append: false)!
                 outputStream.open()
-                outputStream.write(buffer, maxLength: outputBuff.count)
-                outputStream.close()
+                outputStream.write(buffer, maxLength: buffer.count)
+                outputStream.close() */
             default:
                 break
             }
