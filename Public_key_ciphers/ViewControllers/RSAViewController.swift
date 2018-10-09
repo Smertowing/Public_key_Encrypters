@@ -101,7 +101,10 @@ class RSAViewController: NSViewController  {
         eulerTBox.stringValue = String(euler)
         n = p * q
         nTBox.stringValue = String(n)
-        
+        guard n >= 254 else {
+            dialogError(question: "Error!", text: "Your primes are very small. N should be at least 255.")
+            return false
+        }
         guard isRelativelyPrime(ki, euler) else {
             dialogError(question: "Error!", text: "Incorrected Kc.")
             return false
@@ -187,11 +190,6 @@ class RSAViewController: NSViewController  {
                 let pointer = UnsafeBufferPointer(start: buffer, count: buffer.count)
                 let data = Data(buffer: pointer)
                 try! data.write(to: URL(fileURLWithPath: filePath))
-                
-           /*     let outputStream = OutputStream(toFileAtPath: filePath, append: false)!
-                outputStream.open()
-                outputStream.write(buffer, maxLength: buffer.count)
-                outputStream.close() */
             default:
                 break
             }
