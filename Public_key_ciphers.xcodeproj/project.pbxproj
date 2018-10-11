@@ -13,6 +13,7 @@
 		F32164F8216A4D6800602A55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F32164F6216A4D6800602A55 /* Main.storyboard */; };
 		F3216501216A4F7800602A55 /* RSAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3216500216A4F7800602A55 /* RSAViewController.swift */; };
 		F3216504216A5A0000602A55 /* CommonFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3216503216A5A0000602A55 /* CommonFunctions.swift */; };
+		F35F8F59216F7F4500CE7140 /* ElgamalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35F8F58216F7F4500CE7140 /* ElgamalViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		F32164FA216A4D6800602A55 /* Public_key_ciphers.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Public_key_ciphers.entitlements; sourceTree = "<group>"; };
 		F3216500216A4F7800602A55 /* RSAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAViewController.swift; sourceTree = "<group>"; };
 		F3216503216A5A0000602A55 /* CommonFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunctions.swift; sourceTree = "<group>"; };
+		F35F8F58216F7F4500CE7140 /* ElgamalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElgamalViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +60,6 @@
 			isa = PBXGroup;
 			children = (
 				F32164F0216A4D6800602A55 /* AppDelegate.swift */,
-				F32164F2216A4D6800602A55 /* ViewController.swift */,
 				F32164F4216A4D6800602A55 /* Assets.xcassets */,
 				F32164F6216A4D6800602A55 /* Main.storyboard */,
 				F3216502216A4F7E00602A55 /* ViewControllers */,
@@ -72,7 +73,9 @@
 		F3216502216A4F7E00602A55 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F32164F2216A4D6800602A55 /* ViewController.swift */,
 				F3216500216A4F7800602A55 /* RSAViewController.swift */,
+				F35F8F58216F7F4500CE7140 /* ElgamalViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				F32164F3216A4D6800602A55 /* ViewController.swift in Sources */,
 				F3216504216A5A0000602A55 /* CommonFunctions.swift in Sources */,
 				F32164F1216A4D6800602A55 /* AppDelegate.swift in Sources */,
+				F35F8F59216F7F4500CE7140 /* ElgamalViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
