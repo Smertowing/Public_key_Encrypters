@@ -38,7 +38,7 @@ extension NSViewController {
 
 class ViewController: NSViewController {
     
-    var outputBuff: [Int] = []
+    var outputBuff: [UInt16] = []
     var inputBuff: [UInt8] = []
     
     override func viewDidLoad() {
@@ -63,16 +63,16 @@ class ViewController: NSViewController {
             case 1:
                 var buffer = [UInt8](repeating: 0, count: data.length)
                 data.getBytes(&buffer, length: data.length)
-                var tempbuffer: [Int] = []
-                for i in 0..<buffer.count/8 - 1 {
-                    var tempInt: Int = 0
+                var tempbuffer: [UInt16] = []
+                for i in 0..<buffer.count/2 - 1 {
+                    var tempUInt16: UInt16 = 0
                     var k = 0
-                    for j: Int in [56,48,40,32,24,16,8,0] {
-                        let temp = Int(buffer[i*8+k])
-                        tempInt += (temp << j)
+                    for j: UInt in [8,0] {
+                        let temp = UInt16(buffer[i*2+k])
+                        tempUInt16 += (temp << j)
                         k += 1
                     }
-                    tempbuffer.append(tempInt)
+                    tempbuffer.append(tempUInt16)
                 }
                 outputBuff = tempbuffer
                 outputField.stringValue = ""
@@ -99,7 +99,7 @@ class ViewController: NSViewController {
             case 1:
                 var buffer: [UInt8] = []
                 for int in outputBuff {
-                    for i: UInt in [56,48,40,32,24,16,8,0] {
+                    for i: UInt in [8,0] {
                         let temp = (int >> i) & 255
                         buffer.append(UInt8(temp))
                     }

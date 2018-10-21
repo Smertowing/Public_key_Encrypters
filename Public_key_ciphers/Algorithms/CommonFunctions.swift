@@ -28,7 +28,7 @@ func fastexp(a: Int, z: Int, n: Int) -> Int {
 }
 
 // Advanced Euclidean algorithm
-func euclidex(a: Int, b: Int) -> (Int,Int,Int) {
+func euclideExtended(a: Int, b: Int) -> (Int,Int,Int) {
     var d0 = a, d1 = b
     var x0 = 1, x1 = 0, y0 = 0, y1 = 1
     while d1 > 1 {

@@ -14,7 +14,7 @@ class RSAViewController: ViewController  {
     @IBOutlet weak var pTBox: NSTextField!
     @IBOutlet weak var qTBox: NSTextField!
     @IBOutlet weak var kiTBox: NSTextField!
-    @IBOutlet weak var nTBox: NSTextField!
+    @IBOutlet weak var rTBox: NSTextField!
     @IBOutlet weak var eulerTBox: NSTextField!
     @IBOutlet weak var koTBox: NSTextField!
     @IBOutlet weak var inputField: NSTextField!
@@ -23,7 +23,7 @@ class RSAViewController: ViewController  {
     var p = 0
     var q = 0
     var ki = 0
-    var n = 0
+    var r = 0
     var euler = 0
     var ko = 0
     
@@ -32,9 +32,9 @@ class RSAViewController: ViewController  {
     }
     
     func encode() {
-        outputBuff = inputBuff.map { Int($0) }
+        outputBuff = inputBuff.map { UInt16($0) }
         for index in 0..<outputBuff.count {
-            outputBuff[index] = fastexp(a: Int(outputBuff[index]), z: ki, n: n)
+            outputBuff[index] = UInt16(fastexp(a: Int(outputBuff[index]), z: ki, n: r))
         }
         outputField.stringValue = ""
         for operatedByte in outputBuff {
@@ -48,7 +48,7 @@ class RSAViewController: ViewController  {
     func decode() {
         inputBuff.removeAll()
         for operatedByte in outputBuff {
-            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:ko, n: n)))
+            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:ko, n: r)))
         }
         inputField.stringValue = ""
         for operatedByte in inputBuff {
@@ -67,49 +67,65 @@ class RSAViewController: ViewController  {
                 return false
             }
             
+            guard (Int(pTBox.stringValue) != nil) && (Int(pTBox.stringValue)!.isPrime) else {
+                dialogError(question: "Error!", text: "p is not a prime number.")
+                return false
+            }
+            p = Int(pTBox.stringValue)!
+            
+            guard (Int(qTBox.stringValue) != nil) && (Int(qTBox.stringValue)!.isPrime) else {
+                dialogError(question: "Error!", text: "q is not a prime number.")
+                return false
+            }
+            q = Int(qTBox.stringValue)!
+            
+            guard (Int(kiTBox.stringValue) != nil) else {
+                dialogError(question: "Error!", text: "Ki is not a number.")
+                return false
+            }
+            ki = Int(kiTBox.stringValue)!
+            
+            euler  = (p - 1) * (q - 1)
+            eulerTBox.stringValue = String(euler)
+            r = p * q
+            rTBox.stringValue = String(r)
+            guard r >= UInt8.max && r <= UInt16.max else {
+                dialogError(question: "Error!", text: "Your primes are very small. N should be at least 255.")
+                return false
+            }
+            guard isRelativelyPrime(ki, euler) else {
+                dialogError(question: "Error!", text: "Incorrected Ki.")
+                return false
+            }
+            
+            ko = inverseIt(ki, euler)
+            koTBox.stringValue = String(ko)
+            
         case 1:
             guard outputBuff.count > 0 else {
                 dialogError(question: "Error!", text: "Please, open a file first.")
                 return false
             }
             
+            guard Int(rTBox.stringValue) != nil else {
+                dialogError(question: "Error!", text: "r is not a prime number.")
+                return false
+            }
+            r = Int(rTBox.stringValue)!
+            guard r >= UInt8.max && r <= UInt16.max else {
+                dialogError(question: "Error!", text: "Your primes are very small. N should be at least 255.")
+                return false
+            }
+            
+            guard Int(koTBox.stringValue) != nil else {
+                dialogError(question: "Error!", text: "r is not a prime number.")
+                return false
+            }
+            ko = Int(koTBox.stringValue)!
+            
         default:
             return false
         }
-        
-        guard (Int(pTBox.stringValue) != nil) && (Int(pTBox.stringValue)!.isPrime) else {
-            dialogError(question: "Error!", text: "p is not a prime number.")
-            return false
-        }
-        p = Int(pTBox.stringValue)!
-        
-        guard (Int(qTBox.stringValue) != nil) && (Int(qTBox.stringValue)!.isPrime) else {
-            dialogError(question: "Error!", text: "q is not a prime number.")
-            return false
-        }
-        q = Int(qTBox.stringValue)!
-        
-        guard (Int(kiTBox.stringValue) != nil) else {
-            dialogError(question: "Error!", text: "Ki is not a number.")
-            return false
-        }
-        ki = Int(kiTBox.stringValue)!
-        
-        euler  = (p - 1) * (q - 1)
-        eulerTBox.stringValue = String(euler)
-        n = p * q
-        nTBox.stringValue = String(n)
-        guard n >= 255 else {
-            dialogError(question: "Error!", text: "Your primes are very small. N should be at least 255.")
-            return false
-        }
-        guard isRelativelyPrime(ki, euler) else {
-            dialogError(question: "Error!", text: "Incorrected Ki.")
-            return false
-        }
-        
-        ko = inverseIt(ki, euler)
-        koTBox.stringValue = String(ko)
         
         return true
     }
