@@ -38,4 +38,4 @@ It’s almost impossible to find the secret key knowing the public key, since
 this is necessary to solve the comparison e * d ≡ 1 (mod φ (r)). To solve it you need
 know the divisors of the integer r, i.e. decompose the number r into factors.
 
-[Alexey Lyapeshkin](https://github.com/AlexeyLyapeshkin)
+Theoretical part by [Alexey Lyapeshkin](https://github.com/AlexeyLyapeshkin)
