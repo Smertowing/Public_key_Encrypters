@@ -48,7 +48,7 @@ class RSAViewController: ViewController  {
     func decode() {
         inputBuff.removeAll()
         for operatedByte in outputBuff {
-            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:ko, n: r)))
+            inputBuff.append(UInt8(fastexp(a: Int(operatedByte), z:ko, n: r) % 256))
         }
         inputField.stringValue = ""
         for operatedByte in inputBuff {
@@ -79,18 +79,23 @@ class RSAViewController: ViewController  {
             }
             q = Int(qTBox.stringValue)!
             
+            euler  = (p - 1) * (q - 1)
+            eulerTBox.stringValue = String(euler)
+            
             guard (Int(kiTBox.stringValue) != nil) else {
                 dialogError(question: "Error!", text: "Ki is not a number.")
                 return false
             }
             ki = Int(kiTBox.stringValue)!
+            guard (ki > 1) && (ki < euler) else {
+                dialogError(question: "Error!", text: "Ki is invalid number.")
+                return false
+            }
             
-            euler  = (p - 1) * (q - 1)
-            eulerTBox.stringValue = String(euler)
             r = p * q
             rTBox.stringValue = String(r)
             guard r >= UInt8.max && r <= UInt16.max else {
-                dialogError(question: "Error!", text: "Your primes are very small. N should be at least 255.")
+                dialogError(question: "Error!", text: "Your primes are incorrect. R should be at least 255 and less then 65536.")
                 return false
             }
             guard isRelativelyPrime(ki, euler) else {
